@@ -21,17 +21,12 @@ class App extends Component {
       const data = snapshot.val();
       dbData = data;
     });
-    if (dbData[clickedDay] === 'undefined') {
-      console.log('err');
-    }
     console.log(dbData)
+    if (dbData[clickedDay] === undefined) {
+      db.ref('TableCalendar').child(clickedDay).push('')
+    }
     const valueOfNames = Object.values(dbData[clickedDay]);
     const keyOfNames = Object.keys(dbData[clickedDay]);
-    // const nameClicked = dbData[clickedDay]
-    // Object.keys(nameClicked).map(item => {
-    //   console.log(nameClicked[item])
-    // })
-    
     if (isChecked) {
       if (!valueOfNames.includes(name)) {
         db.ref('TableCalendar').child(clickedDay).push(name)
@@ -46,33 +41,6 @@ class App extends Component {
         db.ref('TableCalendar/' + clickedDay + '/' + key).remove()
       }
     }
-
-    // if (!valueOfNames.includes(name)) {
-    //   console.log('************')
-    //   if (isChecked) {
-    //     db.ref('TableCalendar').child(clickedDay).push(name)
-    //     console.log(this.state)
-    //     console.log('Not Included')
-    //   } else {
-    //     db.ref('TableCalendar').child(clickedDay).remove(name)
-    //   }
-      
-    // } else {
-    //   console.log('************')
-    //   console.log(this.state)
-    //   console.log('Included')
-    // }
-
-    // for (let i = 0; i < days.length; i++) {
-    //   var day = days[i];
-    //   const valueOfNames = Object.values(names[day])
-    //   if (valueOfNames.includes(name)) {
-    //     console.log('Included')
-    //   } else {
-    //     const newNames = names[day].concat(name);
-    //     db.ref('TableCalendar').child(day).set(newNames)
-    //   }
-    // }
   }
 
   callbackTable = (day, isChecked) => {
